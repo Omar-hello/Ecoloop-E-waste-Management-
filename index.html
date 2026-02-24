@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoLoop — E-Waste Recycling System</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* === COMBINED FINAL STYLES === */
+:root{--green:#2D7A4F;--gl:#4CAF7D;--gn:#7EF5A8;--dark:#0A110D;--d2:#111A14;--d3:#182119;--sur:#1E2D22;--sur2:#253329;--bor:#2D4035;--txt:#E8F0EA;--mut:#8AA090;--acc:#F5C842;--red:#E05252;--r:16px;--rs:8px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--txt);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--dark);}::-webkit-scrollbar-thumb{background:var(--bor);border-radius:3px;}
+.btn{padding:10px 22px;border-radius:100px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.9rem;transition:all .2s;display:inline-flex;align-items:center;gap:8px;text-decoration:none;}
+.btn-ghost{background:transparent;color:var(--mut);border:1px solid var(--bor);}
+.btn-ghost:hover{border-color:var(--gl);color:var(--txt);}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-primary:hover{background:var(--gl);transform:translateY(-1px);}
+.btn-accent{background:var(--gn);color:var(--dark);font-weight:700;}
+.btn-accent:hover{background:#a5ffca;transform:translateY(-2px);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-sm{padding:7px 15px;font-size:.8rem;}
+.btn-full{width:100%;justify-content:center;}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:14px 36px;background:rgba(10,17,13,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--bor);}
+.logo{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--gn);cursor:pointer;}
+.logo span{color:var(--mut);font-weight:400;}
+.nav-mid{display:flex;gap:4px;}
+.nav-lnk{background:none;border:none;color:var(--mut);font-family:'DM Sans',sans-serif;font-size:.86rem;padding:7px 13px;border-radius:100px;cursor:pointer;transition:all .2s;}
+.nav-lnk:hover{color:var(--txt);background:var(--sur);}
+.nav-actions{display:flex;gap:9px;align-items:center;}
+.page{display:none;min-height:100vh;padding-top:72px;}
+.page.active{display:block;}
+#page-home{background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(45,122,79,.18) 0%,transparent 70%);}
+.hero{text-align:center;padding:88px 20px 48px;max-width:900px;margin:0 auto;}
+.pill{display:inline-flex;align-items:center;gap:7px;background:rgba(126,245,168,.1);border:1px solid rgba(126,245,168,.3);color:var(--gn);padding:6px 16px;border-radius:100px;font-size:.76rem;font-weight:600;margin-bottom:26px;}
+.hero h1{font-size:clamp(2.4rem,5.5vw,4.7rem);font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:20px;}
+.hl{color:var(--gn);}
+.hero p{font-size:1.05rem;color:var(--mut);line-height:1.75;max-width:560px;margin:0 auto 34px;}
+.hero-cta{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;}
+.stats-bar{display:flex;justify-content:center;gap:50px;padding:42px 20px;border-top:1px solid var(--bor);border-bottom:1px solid var(--bor);margin-top:46px;flex-wrap:wrap;}
+.si{text-align:center;}.si-n{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--gn);}
+.si-l{font-size:.8rem;color:var(--mut);margin-top:3px;}
+.section{max-width:1200px;margin:0 auto;padding:56px 20px;}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px;}
+.sec-title{font-size:1.65rem;font-weight:800;}
+.frow{display:flex;gap:9px;flex-wrap:wrap;}
+.finp{padding:9px 16px;background:var(--sur);border:1px solid var(--bor);border-radius:100px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .2s;}
+.finp:focus{border-color:var(--green);}
+.finp::placeholder{color:var(--mut);}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:16px;}
+.pc{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);overflow:hidden;transition:all .28s;}
+.pc:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:0 18px 38px rgba(0,0,0,.3);}
+.pci{height:130px;display:flex;align-items:center;justify-content:center;font-size:3.2rem;background:var(--sur2);}
+.pcb{padding:16px;}
+.pccat{font-size:.68rem;font-weight:700;color:var(--gn);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.pcname{font-family:'Syne',sans-serif;font-size:.97rem;font-weight:700;margin-bottom:5px;}
+.pcdesc{font-size:.78rem;color:var(--mut);line-height:1.5;margin-bottom:12px;}
+.pcft{display:flex;align-items:center;justify-content:space-between;}
+.pcprice{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--acc);}
+.cond{padding:3px 9px;border-radius:100px;font-size:.66rem;font-weight:700;}
+.cg{background:rgba(76,175,125,.15);color:var(--gl);}.cf{background:rgba(245,200,66,.15);color:var(--acc);}
+.cp{background:rgba(224,82,82,.15);color:var(--red);}.ca{background:rgba(126,245,168,.15);color:var(--gn);}
+.pca{padding:12px 16px;border-top:1px solid var(--bor);display:flex;gap:8px;}
+.hiw{background:linear-gradient(180deg,transparent,rgba(45,122,79,.07) 50%,transparent);border-top:1px solid var(--bor);border-bottom:1px solid var(--bor);}
+.steps{display:flex;align-items:flex-start;justify-content:center;}
+.step{flex:1;max-width:215px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.sc2{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex-shrink:0;}
+.s1{background:var(--green);box-shadow:0 0 0 9px rgba(45,122,79,.14),0 0 0 18px rgba(45,122,79,.05);}
+.s2{background:#1a7a5f;box-shadow:0 0 0 9px rgba(26,122,95,.14);}
+.s3{background:#7a5f1a;box-shadow:0 0 0 9px rgba(122,95,26,.14);}
+.s4{background:#1a4a7a;box-shadow:0 0 0 9px rgba(26,74,122,.14);}
+.sn{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;}
+.sem{font-size:1.9rem;margin-bottom:11px;display:block;}
+.stitle{font-size:.92rem;font-weight:700;margin-bottom:7px;}
+.sdesc{font-size:.76rem;color:var(--mut);line-height:1.65;padding:0 6px;}
+.sarr{font-size:1.3rem;color:var(--green);opacity:.5;margin-top:20px;padding:0 4px;flex-shrink:0;animation:ap 1.8s ease infinite;}
+@keyframes ap{0%,100%{opacity:.3;transform:translateX(0);}50%{opacity:.8;transform:translateX(5px);}}
+.impsec{background:var(--d2);border-top:1px solid var(--bor);border-bottom:1px solid var(--bor);}
+.impgrid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.mss{display:flex;flex-direction:column;gap:11px;margin-top:26px;}
+.ms2{display:flex;align-items:center;gap:13px;padding:12px 15px;background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);transition:border-color .2s;}
+.ms2:hover{border-color:var(--green);}
+.msico{font-size:1.35rem;flex-shrink:0;}
+.msval{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--gn);}
+.mslbl{font-size:.72rem;color:var(--mut);margin-top:1px;}
+.ib{background:linear-gradient(135deg,var(--green) 0%,#1a5c34 100%);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;}
+.ib::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;background:rgba(126,245,168,.07);border-radius:50%;}
+.ibn{font-family:'Syne',sans-serif;font-size:3.8rem;font-weight:800;color:var(--gn);line-height:1;margin-bottom:5px;}
+.ibl{font-size:.97rem;font-weight:600;color:#fff;margin-bottom:4px;}
+.ibs{font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:16px;line-height:1.5;}
+.ibbar{background:rgba(0,0,0,.2);border-radius:100px;height:7px;overflow:hidden;}
+.ibfill{height:100%;background:var(--gn);border-radius:100px;transition:width 2.5s ease;}
+.scg{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:13px;}
+.sc3{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:17px;text-align:center;transition:all .2s;}
+.sc3:hover{border-color:var(--green);transform:translateY(-2px);}
+.sc3n{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--gn);margin-bottom:3px;}
+.sc3l{font-size:.7rem;color:var(--mut);line-height:1.4;}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.tc{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);padding:24px;transition:all .28s;position:relative;}
+.tc:hover{border-color:var(--green);transform:translateY(-4px);}
+.tc::before{content:'"\';';position:absolute;top:10px;right:18px;font-family:'Syne',sans-serif;font-size:5rem;color:var(--green);opacity:.11;line-height:1;}
+.tcs{color:var(--acc);letter-spacing:2px;font-size:.85rem;margin-bottom:11px;}
+.tct{font-size:.82rem;color:var(--mut);line-height:1.75;margin-bottom:16px;font-style:italic;}
+.tca{display:flex;align-items:center;gap:10px;border-top:1px solid var(--bor);padding-top:13px;}
+.tcav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;color:var(--dark);flex-shrink:0;}
+.tcn{font-weight:600;font-size:.86rem;}.tcl{font-size:.7rem;color:var(--mut);margin-top:1px;}
+.footer{background:var(--d2);border-top:1px solid var(--bor);padding:52px 36px 26px;}
+.footi{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:38px;padding-bottom:38px;border-bottom:1px solid var(--bor);margin-bottom:24px;}
+.ftt{font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;color:var(--gn);text-transform:uppercase;letter-spacing:1px;margin-bottom:13px;}
+.ftl{display:block;color:var(--mut);font-size:.83rem;text-decoration:none;margin-bottom:8px;transition:color .2s;cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;text-align:left;}
+.ftl:hover{color:var(--txt);}
+.socials{display:flex;gap:8px;margin-top:16px;}
+.sbtn{width:34px;height:34px;background:var(--sur);border:1px solid var(--bor);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;text-decoration:none;transition:all .2s;}
+.sbtn:hover{border-color:var(--green);transform:translateY(-2px);}
+.footbot{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;font-size:.74rem;color:var(--mut);flex-wrap:wrap;gap:7px;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);z-index:600;align-items:center;justify-content:center;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:var(--d2);border:1px solid var(--bor);border-radius:22px;width:100%;max-width:440px;padding:36px;position:relative;animation:sIn .22s ease;}
+@keyframes sIn{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
+.mclose{position:absolute;top:16px;right:16px;background:var(--sur);border:none;color:var(--mut);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.mclose:hover{background:var(--bor);color:var(--txt);}
+.mtit{font-size:1.6rem;font-weight:800;margin-bottom:3px;}
+.msub{color:var(--mut);font-size:.84rem;margin-bottom:24px;}
+.rtabs{display:flex;background:var(--sur);border-radius:100px;padding:4px;margin-bottom:22px;}
+.rtab{flex:1;padding:8px;text-align:center;border-radius:100px;cursor:pointer;font-size:.81rem;font-weight:500;color:var(--mut);transition:all .2s;border:none;background:transparent;font-family:'DM Sans',sans-serif;}
+.rtab.active{background:var(--green);color:#fff;}
+.fg{margin-bottom:14px;}
+.fl{display:block;font-size:.78rem;font-weight:500;color:var(--mut);margin-bottom:6px;}
+.fi{width:100%;padding:11px 14px;background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;}
+.fi:focus{border-color:var(--green);}
+.fi::placeholder{color:var(--mut);opacity:.5;}
+select.fi{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' fill='%238AA090' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;}
+textarea.fi{resize:vertical;min-height:76px;}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.div2{display:flex;align-items:center;gap:9px;margin:15px 0;color:var(--mut);font-size:.78rem;}
+.div2::before,.div2::after{content:'';flex:1;height:1px;background:var(--bor);}
+.gbtn{width:100%;padding:11px;background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.86rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;font-weight:500;}
+.gbtn:hover{border-color:var(--green);background:var(--sur2);}
+.lnk{color:var(--gn);cursor:pointer;font-weight:500;}
+.lnk:hover{text-decoration:underline;}
+#page-dash{display:none;}
+#page-dash.active{display:flex;min-height:100vh;padding-top:72px;}
+.sidebar{width:250px;min-width:250px;background:var(--d2);border-right:1px solid var(--bor);padding:26px 0;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto;flex-shrink:0;}
+.sbuser{padding:0 20px 20px;border-bottom:1px solid var(--bor);margin-bottom:12px;}
+.usrav{width:44px;height:44px;background:linear-gradient(135deg,var(--green),var(--gn));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;color:var(--dark);margin-bottom:9px;}
+.sbnm{font-weight:600;font-size:.9rem;margin-bottom:3px;}
+.sbrl{font-size:.7rem;color:var(--gn);background:rgba(126,245,168,.1);padding:2px 9px;border-radius:100px;display:inline-block;font-weight:700;}
+.sbnav{padding:0 9px;}
+.nvi{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rs);cursor:pointer;font-size:.86rem;color:var(--mut);font-weight:500;transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;margin-bottom:1px;}
+.nvi:hover{background:var(--sur);color:var(--txt);}
+.nvi.active{background:rgba(45,122,79,.2);color:var(--gn);}
+.nvico{font-size:.97rem;width:20px;text-align:center;}
+.nvbdg{margin-left:auto;background:var(--red);color:#fff;font-size:.63rem;font-weight:700;padding:2px 6px;border-radius:100px;}
+.dcnt{flex:1;padding:34px;overflow-y:auto;min-width:0;}
+.pgtit{font-size:1.7rem;font-weight:800;margin-bottom:3px;}
+.pgsub{color:var(--mut);font-size:.86rem;margin-bottom:26px;}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:16px;margin-bottom:28px;}
+.mc{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);padding:20px;}
+.mcico{font-size:1.6rem;margin-bottom:9px;}
+.mcval{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:800;color:var(--gn);}
+.mclbl{font-size:.78rem;color:var(--mut);margin-top:2px;}
+.tw{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);overflow:hidden;margin-bottom:22px;}
+.thd{padding:16px 20px;border-bottom:1px solid var(--bor);display:flex;justify-content:space-between;align-items:center;}
+.thd h3{font-size:.92rem;font-weight:700;}
+table{width:100%;border-collapse:collapse;}
+th{padding:10px 13px;text-align:left;font-size:.7rem;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bor);background:var(--d3);}
+td{padding:12px 13px;font-size:.83rem;border-bottom:1px solid rgba(45,64,53,.5);}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.bs{padding:4px 10px;border-radius:100px;font-size:.68rem;font-weight:700;display:inline-block;}
+.bsp{background:rgba(245,200,66,.15);color:var(--acc);}
+.bsc{background:rgba(76,175,125,.15);color:var(--gl);}
+.bsr{background:rgba(126,245,168,.15);color:var(--gn);}
+.bsx{background:rgba(224,82,82,.15);color:var(--red);}
+.fc{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);padding:28px;max-width:600px;}
+.hint{background:rgba(245,200,66,.07);border:1px solid rgba(245,200,66,.22);border-radius:var(--rs);padding:10px 14px;font-size:.78rem;color:var(--acc);margin-bottom:20px;}
+.info2{background:rgba(126,245,168,.07);border:1px solid rgba(126,245,168,.2);border-radius:var(--rs);padding:10px 14px;font-size:.78rem;color:var(--gn);margin-bottom:20px;}
+.empty{text-align:center;padding:52px 20px;color:var(--mut);}
+.emptyi{font-size:2.6rem;margin-bottom:12px;opacity:.5;}
+.bw{background:var(--sur2);border-radius:4px;height:6px;margin-top:4px;}
+.bf{height:100%;border-radius:4px;background:var(--green);}
+.ssel{background:var(--sur);border:1px solid var(--bor);color:var(--txt);border-radius:6px;padding:4px 8px;font-size:.74rem;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+.ml{display:grid;grid-template-columns:260px 1fr;gap:0;background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);height:570px;overflow:hidden;}
+.cl{border-right:1px solid var(--bor);overflow-y:auto;background:var(--d2);}
+.clh{padding:16px 18px;border-bottom:1px solid var(--bor);font-weight:700;font-size:.9rem;}
+.ci{padding:13px 16px;cursor:pointer;border-bottom:1px solid rgba(45,64,53,.5);transition:all .2s;}
+.ci:hover,.ci.act{background:var(--sur);}
+.citp{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+.cinm{font-weight:600;font-size:.84rem;}
+.cipv{font-size:.74rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px;}
+.cdot{width:8px;height:8px;background:var(--gn);border-radius:50%;flex-shrink:0;}
+.ca2{display:flex;flex-direction:column;}
+.chd{padding:16px 20px;border-bottom:1px solid var(--bor);display:flex;align-items:center;gap:11px;}
+.chav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:.84rem;font-weight:800;color:var(--dark);}
+.chnm{font-weight:700;font-size:.9rem;}
+.chon{font-size:.7rem;color:var(--gn);}
+.chm{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;}
+.msg{display:flex;gap:8px;max-width:70%;}
+.msg.sent{align-self:flex-end;flex-direction:row-reverse;}
+.mav{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:.66rem;font-weight:700;font-family:'Syne',sans-serif;color:#fff;flex-shrink:0;}
+.msg.sent .mav{background:var(--acc);color:var(--dark);}
+.mbub{padding:9px 14px;border-radius:14px;font-size:.83rem;line-height:1.5;}
+.msg.recv .mbub{background:var(--sur2);border-radius:4px 14px 14px 14px;}
+.msg.sent .mbub{background:var(--green);color:#fff;border-radius:14px 4px 14px 14px;}
+.mtime{font-size:.63rem;color:var(--mut);margin-top:3px;}
+.msg.sent .mtime{text-align:right;}
+.chia{padding:13px 20px;border-top:1px solid var(--bor);display:flex;gap:10px;align-items:flex-end;}
+.chinp{flex:1;background:var(--sur2);border:1px solid var(--bor);border-radius:20px;padding:10px 16px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s;}
+.chinp:focus{border-color:var(--green);}
+.chsend{width:40px;height:40px;background:var(--green);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .2s;flex-shrink:0;}
+.chsend:hover{background:var(--gl);transform:scale(1.06);}
+.tcon{position:fixed;bottom:26px;right:26px;z-index:999;display:flex;flex-direction:column;gap:9px;}
+.toast{background:var(--sur);border:1px solid var(--bor);border-radius:var(--rs);padding:12px 17px;font-size:.83rem;display:flex;align-items:center;gap:8px;min-width:260px;animation:slR .3s ease;box-shadow:0 10px 28px rgba(0,0,0,.3);}
+.toast.ok{border-left:3px solid var(--gn);}
+.toast.err{border-left:3px solid var(--red);}
+@keyframes slR{from{opacity:0;transform:translateX(18px);}to{opacity:1;transform:translateX(0);}}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.particle{position:fixed;background:var(--gn);border-radius:50%;opacity:.12;pointer-events:none;animation:fp linear infinite;}
+@keyframes fp{from{transform:translateY(100vh);opacity:.12;}to{transform:translateY(-80px);opacity:0;}}
+@media(max-width:900px){
+  nav{padding:12px 18px;}.nav-mid{display:none;}
+  .steps{flex-direction:column;align-items:center;gap:26px;}.sarr{transform:rotate(90deg);margin:0;}
+  .impgrid,.tgrid{grid-template-columns:1fr;}
+  .footi{grid-template-columns:1fr 1fr;}
+  #page-dash.active{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:relative;top:0;}
+  .dcnt{padding:18px;}
+  .ml{grid-template-columns:1fr;height:auto;}.cl{height:160px;}
+  .fg2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div id="pw"></div>
+<nav>
+  <div class="logo" onclick="goTo('home')">Eco<span>Loop</span> ♻️</div>
+  <div class="nav-mid">
+    <button class="nav-lnk" onclick="scrl('hiw')">How It Works</button>
+    <button class="nav-lnk" onclick="scrl('imp')">Impact</button>
+    <button class="nav-lnk" onclick="scrl('prods')">Products</button>
+    <button class="nav-lnk" onclick="scrl('abt')">About</button>
+  </div>
+  <div class="nav-actions" id="ng">
+    <button class="btn btn-ghost btn-sm" onclick="om('login')">Login</button>
+    <button class="btn btn-accent btn-sm" onclick="om('register')">Get Started</button>
+  </div>
+  <div class="nav-actions" id="nu" style="display:none;">
+    <button class="btn btn-ghost btn-sm" onclick="goTo('home')">🏠 Home</button>
+    <button class="btn btn-primary btn-sm" onclick="gd()">📊 Dashboard</button>
+    <button class="btn btn-danger btn-sm" onclick="lo()">Sign Out</button>
+  </div>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page active">
+<div class="hero">
+  <div class="pill">🌍 Bangladesh's Leading Digital E-Waste Platform</div>
+  <h1>Recycle Smart,<br>Live <span class="hl">Greener</span></h1>
+  <p>Submit your old electronics, get a fair price, schedule free pickup — and help build a cleaner Bangladesh. Powered by a real database.</p>
+  <div class="hero-cta">
+    <button class="btn btn-accent" onclick="om('register')" style="font-size:1rem;padding:13px 28px;">♻️ Start Recycling</button>
+    <button class="btn btn-ghost" onclick="om('login')" style="font-size:1rem;padding:13px 28px;">Sign In →</button>
+  </div>
+</div>
+<div class="stats-bar">
+  <div class="si"><div class="si-n">2,400+</div><div class="si-l">Items Recycled</div></div>
+  <div class="si"><div class="si-n">580+</div><div class="si-l">Active Donors</div></div>
+  <div class="si"><div class="si-n">12</div><div class="si-l">Collection Centers</div></div>
+  <div class="si"><div class="si-n">48t</div><div class="si-l">E-Waste Diverted</div></div>
+</div>
+<div class="section" id="prods">
+  <div class="sec-hd">
+    <h2 class="sec-title">🛍️ Browse Recyclable Products</h2>
+    <div class="frow">
+      <!-- <input class="finp" id="srch" placeholder="🔍 Search…" oninput="fp2()" style="min-width:160px;"> -->
+       <input class="finp" id="srch" placeholder="🔍 Search…" oninput="fp2()" style="min-width:160px;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <select class="finp" id="catf" onchange="fp2()">
+        <option value="">All Categories</option>
+        <option value="Mobile">📱 Mobile</option><option value="Laptop">💻 Laptop</option>
+        <option value="TV">📺 TV</option><option value="Battery">🔋 Battery</option>
+        <option value="Appliance">🏠 Appliances</option><option value="Printer">🖨️ Printer</option>
+        <option value="Camera">📷 Camera</option><option value="Gaming">🎮 Gaming</option>
+      </select>
+    </div>
+  </div>
+  <div class="pg" id="pgrid"><div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--mut);">Loading…</div></div>
+</div>
+<div class="hiw" id="hiw">
+  <div class="section">
+    <div style="text-align:center;margin-bottom:56px;">
+      <div class="pill" style="margin:0 auto 16px;">✨ Simple Process</div>
+      <h2 style="font-size:clamp(1.8rem,3.6vw,2.7rem);font-weight:800;letter-spacing:-1px;margin-bottom:12px;">How It Works</h2>
+      <p style="color:var(--mut);font-size:.92rem;max-width:460px;margin:0 auto;">Simple 4-step process to recycle your e-waste and get paid</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="sc2 s1"><span class="sn">1</span></div><span class="sem">📝</span><div class="stitle">Register & Submit</div><p class="sdesc">Create your account and submit your e-waste items with category, condition, and details.</p></div>
+      <div class="sarr">→</div>
+      <div class="step"><div class="sc2 s2"><span class="sn">2</span></div><span class="sem">💰</span><div class="stitle">Get Valuation</div><p class="sdesc">Our experts review your submission and provide an approved value within 24 hours.</p></div>
+      <div class="sarr">→</div>
+      <div class="step"><div class="sc2 s3"><span class="sn">3</span></div><span class="sem">🚚</span><div class="stitle">Schedule Pickup</div><p class="sdesc">Choose a convenient time and location for our team to collect your items safely.</p></div>
+      <div class="sarr">→</div>
+      <div class="step"><div class="sc2 s4"><span class="sn">4</span></div><span class="sem">🎉</span><div class="stitle">Receive Payment</div><p class="sdesc">Get paid instantly once items are verified — directly to your account or mobile wallet.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:50px;"><button class="btn btn-accent" onclick="om('register')" style="padding:13px 36px;font-size:.95rem;">♻️ Start Recycling Now</button></div>
+  </div>
+</div>
+<div class="impsec" id="imp">
+  <div class="section">
+    <div class="impgrid">
+      <div>
+        <div class="pill" style="margin-bottom:16px;">🌍 Our Impact</div>
+        <h2 style="font-size:clamp(1.7rem,3vw,2.6rem);font-weight:800;letter-spacing:-1px;margin-bottom:16px;">Making a<br><span style="color:var(--gn);">Real Difference</span></h2>
+        <p style="color:var(--mut);line-height:1.8;font-size:.9rem;">Electronic waste is one of the fastest-growing waste streams globally. By recycling with EcoLoop, you prevent <strong style="color:var(--txt);">lead</strong>, <strong style="color:var(--txt);">mercury</strong>, and <strong style="color:var(--txt);">cadmium</strong> from contaminating our environment.</p>
+        <div class="mss">
+          <div class="ms2"><span class="msico">🌱</span><div><div class="msval">48 Tons</div><div class="mslbl">E-Waste Diverted from Landfills</div></div></div>
+          <div class="ms2"><span class="msico">💧</span><div><div class="msval">2.4M Litres</div><div class="mslbl">Water Contamination Prevented</div></div></div>
+          <div class="ms2"><span class="msico">⚡</span><div><div class="msval">320 MWh</div><div class="mslbl">Energy Saved through Recycling</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="ib">
+          <div class="ibn" id="cp">0%</div>
+          <div class="ibl">Recycling Success Rate</div>
+          <div class="ibs">Of all collected items are successfully processed</div>
+          <div class="ibbar"><div class="ibfill" id="ibf" style="width:0%"></div></div>
+        </div>
+        <div class="scg">
+          <div class="sc3"><div class="sc3n" id="ci2">0+</div><div class="sc3l">Items Recycled</div></div>
+          <div class="sc3"><div class="sc3n" id="cd">0+</div><div class="sc3l">Happy Donors</div></div>
+          <div class="sc3"><div class="sc3n" id="cc">0</div><div class="sc3l">Collection Centers</div></div>
+          <div class="sc3"><div class="sc3n" id="cco">0t</div><div class="sc3l">CO₂ Saved</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" id="abt">
+  <div style="text-align:center;margin-bottom:40px;">
+    <div class="pill" style="margin:0 auto 13px;">💬 What People Say</div>
+    <h2 style="font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-1px;">Trusted by Hundreds of Donors</h2>
+  </div>
+  <div class="tgrid">
+    <div class="tc"><div class="tcs">★★★★★</div><p class="tct">"I had an old Samsung phone collecting dust for 3 years. EcoLoop picked it up, gave me ৳900, and I feel great knowing it was recycled properly!"</p><div class="tca"><div class="tcav" style="background:linear-gradient(135deg,#2D7A4F,#7EF5A8);">R</div><div><div class="tcn">Rashedul Alam</div><div class="tcl">📍 Mirpur, Dhaka</div></div></div></div>
+    <div class="tc"><div class="tcs">★★★★★</div><p class="tct">"Submitted our office's 12 old laptops. The admin negotiated a fair price through chat, and pickup was arranged within 2 days. Excellent!"</p><div class="tca"><div class="tcav" style="background:linear-gradient(135deg,#F5C842,#ff9800);">O</div><div><div class="tcn">Omar Faruqe</div><div class="tcl">📍 Gulshan, Dhaka</div></div></div></div>
+    <div class="tc"><div class="tcs">★★★★☆</div><p class="tct">"The Google login made signup super easy. I love tracking every item and chatting directly with the team about pricing — so transparent!"</p><div class="tca"><div class="tcav" style="background:linear-gradient(135deg,#7EC8F5,#4285F4);">F</div><div><div class="tcn">Fatima Begum</div><div class="tcl">📍 Uttara, Dhaka</div></div></div></div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footi">
+    <div>
+      <div class="logo" style="cursor:default;font-size:1.5rem;">Eco<span>Loop</span> ♻️</div>
+      <p style="color:var(--mut);font-size:.82rem;line-height:1.7;max-width:240px;margin-top:9px;">Bangladesh's leading e-waste recycling platform.</p>
+      <div class="socials"><a class="sbtn">📘</a><a class="sbtn">📸</a><a class="sbtn">🐦</a><a class="sbtn">▶️</a></div>
+    </div>
+    <div><div class="ftt">Quick Links</div>
+      <button class="ftl" onclick="om('register')">Get Started</button>
+      <button class="ftl" onclick="om('login')">Sign In</button>
+      <button class="ftl" onclick="scrl('hiw')">How It Works</button>
+      <button class="ftl" onclick="scrl('imp')">Our Impact</button>
+    </div>
+    <div><div class="ftt">Products</div>
+      <span class="ftl">📱 Mobile Phones</span><span class="ftl">💻 Laptops & PCs</span>
+      <span class="ftl">🔋 Batteries</span><span class="ftl">🏠 Appliances</span><span class="ftl">📺 TVs</span>
+    </div>
+    <div><div class="ftt">Contact</div>
+      <span class="ftl">📍 Mirpur-10, Dhaka</span><span class="ftl">📞 +880 17 0000 0000</span>
+      <span class="ftl">✉️ hello@ecoloop.com</span><span class="ftl">🕐 Sat–Thu, 9am–6pm</span>
+    </div>
+  </div>
+  <div class="footbot">
+    <span>© 2025 EcoLoop — E-Waste Recycling & Collection Management System</span>
+    <span>CSTE2201 | Rashedul Alam Noyon (ASH2201041M) & Khan Md. Omar Faruqe (ASH2301022M)</span>
+  </div>
+</footer>
+</div>
+<!-- DASHBOARD -->
+<div id="page-dash" class="page">
+  <aside class="sidebar" id="sbar">
+    <div class="sbuser">
+      <div class="usrav" id="av">U</div>
+      <div class="sbnm" id="snm">User</div>
+      <div class="sbrl" id="srl">Donor</div>
+    </div>
+    <nav class="sbnav" id="snav"></nav>
+  </aside>
+  <main class="dcnt" id="dcnt"></main>
+</div>
+<!-- AUTH MODAL -->
+<div class="overlay" id="ov">
+  <div class="modal">
+    <button class="mclose" onclick="cm()">✕</button>
+    <div class="mtit" id="mt">Welcome Back 👋</div>
+    <div class="msub" id="ms">Sign in to your EcoLoop account</div>
+    <div class="rtabs" id="rtbs">
+      <button class="rtab active" onclick="sr('donor',this)">🤝 Donor</button>
+      <button class="rtab" onclick="sr('admin',this)">⚙️ Admin</button>
+    </div>
+    <div id="lf">
+      <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="le" placeholder="you@gmail.com"></div>
+      <div class="fg"><label class="fl">Password</label><input class="fi" type="password" id="lp" placeholder="••••••••" onkeydown="if(event.key==='Enter')dl()"></div>
+      <button class="btn btn-primary btn-full" id="lbtn" onclick="dl()" style="padding:12px;font-size:.92rem;border-radius:var(--rs);margin-bottom:14px;">Sign In →</button>
+      <div class="div2">or continue with</div>
+      <button class="gbtn" onclick="gl()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+      <p style="text-align:center;margin-top:18px;font-size:.8rem;color:var(--mut);">No account? <span class="lnk" onclick="om('register')">Register here</span></p>
+    </div>
+    <div id="rf" style="display:none;">
+      <div class="fg2">
+        <div class="fg"><label class="fl">First Name</label><input class="fi" id="rfn" placeholder="Rashedul"></div>
+        <div class="fg"><label class="fl">Last Name</label><input class="fi" id="rln" placeholder="Alam"></div>
+      </div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="rem" placeholder="you@gmail.com"></div>
+      <div class="fg"><label class="fl">Phone</label><input class="fi" id="rph" placeholder="+880 17XXXXXXXX"></div>
+      <div class="fg"><label class="fl">Address</label><input class="fi" id="rad" placeholder="Dhaka, Bangladesh"></div>
+      <div class="fg"><label class="fl">Password</label><input class="fi" type="password" id="rpw" placeholder="Min. 6 characters"></div>
+      <button class="btn btn-accent btn-full" id="rbtn" onclick="dr()" style="padding:12px;font-size:.92rem;border-radius:var(--rs);margin-bottom:14px;">Create Account →</button>
+      <div class="div2">or</div>
+      <button class="gbtn" onclick="gl()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Sign up with Google
+      </button>
+      <p style="text-align:center;margin-top:18px;font-size:.8rem;color:var(--mut);">Have an account? <span class="lnk" onclick="om('login')">Sign in</span></p>
+    </div>
+  </div>
+</div>
+<div class="tcon" id="tc"></div>
+
+<script>
+'use strict';
+const AB=window.location.hostname==='127.0.0.1'||window.location.hostname==='localhost'?'http://localhost:5000':'';
+const PD=[
+  {id:1,name:'Smartphone (Any Brand)',category:'Mobile',emoji:'📱',desc:'Used or broken mobile phones. All brands accepted.',price:'৳200 – ৳2,500',condition:'Any'},
+  {id:2,name:'Laptop / Notebook',category:'Laptop',emoji:'💻',desc:'Old laptops, netbooks. Working or non-working.',price:'৳500 – ৳8,000',condition:'Good'},
+  {id:3,name:'LCD / LED Monitor',category:'TV',emoji:'🖥️',desc:'Flat screen monitors from 15" to 32".',price:'৳300 – ৳3,000',condition:'Fair'},
+  {id:4,name:'CRT Television',category:'TV',emoji:'📺',desc:'Old tube TVs. Free pickup for large units.',price:'৳100 – ৳500',condition:'Poor'},
+  {id:5,name:'Lithium Batteries',category:'Battery',emoji:'🔋',desc:'Li-ion, Li-Po, phone batteries. Safe disposal.',price:'৳50 – ৳300',condition:'Any'},
+  {id:6,name:'Lead Acid Battery',category:'Battery',emoji:'⚡',desc:'Car, IPS, motorcycle batteries.',price:'৳200 – ৳1,500',condition:'Any'},
+  {id:7,name:'Inkjet / Laser Printer',category:'Printer',emoji:'🖨️',desc:'Desktop printers of any size or brand.',price:'৳150 – ৳2,000',condition:'Fair'},
+  {id:8,name:'Digital Camera',category:'Camera',emoji:'📷',desc:'Point & shoot, DSLR, action cameras.',price:'৳500 – ৳5,000',condition:'Good'},
+  {id:9,name:'Refrigerator',category:'Appliance',emoji:'🧊',desc:'Single/double door fridges. Free pickup.',price:'৳1,000 – ৳6,000',condition:'Fair'},
+  {id:10,name:'Washing Machine',category:'Appliance',emoji:'🫧',desc:'Top or front loading, any condition.',price:'৳800 – ৳4,000',condition:'Fair'},
+  {id:11,name:'Air Conditioner',category:'Appliance',emoji:'❄️',desc:'Window or split AC units, any brand.',price:'৳1,500 – ৳10,000',condition:'Good'},
+  {id:12,name:'Desktop Computer (Full Set)',category:'Laptop',emoji:'🖥️',desc:'CPU + monitor + keyboard + mouse.',price:'৳500 – ৳5,000',condition:'Fair'},
+  {id:13,name:'Router / Modem',category:'Mobile',emoji:'📡',desc:'WiFi routers, DSL modems, hubs.',price:'৳50 – ৳300',condition:'Any'},
+  {id:14,name:'Gaming Console',category:'Gaming',emoji:'🎮',desc:'PlayStation, Xbox, Nintendo all generations.',price:'৳1,000 – ৳15,000',condition:'Good'},
+  {id:15,name:'Power Bank',category:'Battery',emoji:'🔌',desc:'External battery packs, any capacity.',price:'৳100 – ৳800',condition:'Fair'},
+  {id:16,name:'Microwave Oven',category:'Appliance',emoji:'🍽️',desc:'All sizes, broken or not.',price:'৳300 – ৳2,000',condition:'Fair'},
+  {id:17,name:'Electric Fan',category:'Appliance',emoji:'💨',desc:'Table, ceiling, or stand fans.',price:'৳80 – ৳500',condition:'Any'},
+  {id:18,name:'Tablet / iPad',category:'Mobile',emoji:'📟',desc:'Android tablets, iPads of any generation.',price:'৳300 – ৳5,000',condition:'Good'},
+  {id:19,name:'Smart Watch',category:'Mobile',emoji:'⌚',desc:'Fitness bands, smartwatches, any brand.',price:'৳200 – ৳3,000',condition:'Good'},
+  {id:20,name:'Keyboard & Mouse',category:'Laptop',emoji:'⌨️',desc:'Wired or wireless, gaming or office.',price:'৳50 – ৳400',condition:'Any'},
+];
+
+
+// Disable autocomplete on all inputs
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.setAttribute('autocomplete', 'new-password');
+        input.setAttribute('autocorrect', 'off');
+        input.setAttribute('autocapitalize', 'off');
+    });
+});
+// Edited By Myself
+
+
+/* ── LOCAL DATABASE (works offline, no backend needed) ── */
+const LDB = {
+  g: k => { try { return JSON.parse(localStorage.getItem('el_'+k)) || null; } catch { return null; } },
+  s: (k,v) => localStorage.setItem('el_'+k, JSON.stringify(v)),
+  p: (k,v) => { const a = LDB.g(k)||[]; v.id = v.id||Date.now(); a.push(v); LDB.s(k,a); return v; }
+};
+
+function initLDB() {
+  if (LDB.g('init')) return;
+  LDB.s('users', [
+    {id:1,role:'admin',email:'admin@ecoloop.com',password:'admin123',firstName:'Admin',lastName:'',phone:'',address:'Dhaka HQ'},
+    {id:2,role:'donor',email:'rashedul@gmail.com',password:'pass123',firstName:'Rashedul',lastName:'Noyon',phone:'+880 17 1234 5678',address:'Mirpur, Dhaka'},
+    {id:3,role:'donor',email:'omar@gmail.com',password:'pass123',firstName:'Omar',lastName:'Faruqe',phone:'+880 18 9876 5432',address:'Gulshan, Dhaka'},
+  ]);
+  LDB.s('products', PD);
+  LDB.s('submissions', [
+    {id:101,donorId:2,donorName:'Rashedul Noyon',name:'iPhone 8',category:'Mobile',condition:'Good',description:'Screen cracked',date:'2025-01-15',status:'Collected',centerName:'Dhaka Central'},
+    {id:102,donorId:3,donorName:'Omar Faruqe',name:'Dell Inspiron 15',category:'Laptop',condition:'Fair',description:'Slow old model',date:'2025-01-20',status:'Pending',centerName:''},
+    {id:103,donorId:2,donorName:'Rashedul Noyon',name:'AA Battery Pack x20',category:'Battery',condition:'Poor',description:'Expired batteries',date:'2025-02-01',status:'Recycled',centerName:'Gulshan Hub'},
+  ]);
+  LDB.s('messages', [
+    {id:1,fromId:2,fromName:'Rashedul',fromRole:'donor',toId:1,toName:'Admin',toRole:'admin',text:'Hello! I submitted an iPhone 8. What is the current price?',time:'10:30',read:true},
+    {id:2,fromId:1,fromName:'Admin',fromRole:'admin',toId:2,toName:'Rashedul',toRole:'donor',text:'Hi Rashedul! For iPhone 8 in Good condition, we offer ৳800–1200. Can you confirm the IMEI?',time:'11:00',read:true},
+    {id:3,fromId:2,fromName:'Rashedul',fromRole:'donor',toId:1,toName:'Admin',toRole:'admin',text:'IMEI: 352099001761481. Please confirm pickup.',time:'11:30',read:false},
+  ]);
+  LDB.s('init', true);
+}
+
+/* ── API WRAPPER (tries backend, falls back to localStorage) ── */
+let bon = false;
+async function api(method, path, body=null) {
+  try {
+    const opts = {method, headers:{'Content-Type':'application/json'}};
+    if (body) opts.body = JSON.stringify(body);
+    const res = await fetch(AB + path, opts);
+    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error||'Request failed'); }
+    bon = true;
+    return await res.json();
+  } catch(e) {
+    if (e.message === 'Failed to fetch' || e.message.includes('NetworkError')) bon = false;
+    throw e;
+  }
+}
+
+/* ── STATE ── */
+let CU = null, role = 'donor', ap = 'overview', acv = null, AP = [];
+
+/* ── BOOT ── */
+initLDB();
+createParticles();
+loadProds();
+startImpactObs();
+
+function createParticles() {
+  const w = document.getElementById('pw');
+  for (let i=0;i<12;i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}vw;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;animation-duration:${10+Math.random()*15}s;animation-delay:${Math.random()*12}s;`;
+    w.appendChild(p);
+  }
+}
+
+/* ── NAVIGATION ── */
+function goTo(pg) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+pg).classList.add('active');
+  window.scrollTo(0,0);
+}
+function scrl(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+function gd() { if (!CU) { om('login'); return; } goTo('dash'); buildDash(); }
+
+/* ── MODAL ── */
+function om(t) {
+  document.getElementById('ov').classList.add('open');
+  if (t === 'login') {
+    document.getElementById('mt').textContent = 'Welcome Back 👋';
+    document.getElementById('ms').textContent = 'Sign in to your EcoLoop account';
+    document.getElementById('lf').style.display = '';
+    document.getElementById('rf').style.display = 'none';
+    document.getElementById('rtbs').style.display = '';
+  } else {
+    document.getElementById('mt').textContent = 'Create Account ♻️';
+    document.getElementById('ms').textContent = 'Join EcoLoop and start recycling today';
+    document.getElementById('lf').style.display = 'none';
+    document.getElementById('rf').style.display = '';
+    document.getElementById('rtbs').style.display = 'none';
+  }
+}
+function cm() { document.getElementById('ov').classList.remove('open'); }
+document.getElementById('ov').addEventListener('click', e => { if (e.target === e.currentTarget) cm(); });
+function sr(r, el) { role=r; document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
+
+/* ── LOGIN ── */
+async function dl() {
+  const email = document.getElementById('le').value.trim();
+  const pass  = document.getElementById('lp').value;
+  if (!email||!pass) { tk('Please fill in all fields','err'); return; }
+  const btn = document.getElementById('lbtn');
+  btn.innerHTML = '<div class="spin"></div>'; btn.disabled = true;
+  try {
+    const d = await api('POST','/api/login',{email,password:pass,role});
+    ls(d.user);
+  } catch(e) {
+    if (!bon) {
+      const u = (LDB.g('users')||[]).find(u=>u.email===email&&u.password===pass);
+      if (!u) tk('❌ Invalid email or password','err');
+      else if (role==='admin'&&u.role!=='admin') tk('❌ Not an admin account','err');
+      else ls(u);
+    } else {
+      tk('❌ '+e.message,'err');
+    }
+  } finally { btn.innerHTML='Sign In →'; btn.disabled=false; }
+}
+
+/* ── REGISTER ── */
+async function dr() {
+  const fn=document.getElementById('rfn').value.trim(), ln=document.getElementById('rln').value.trim(),
+        em=document.getElementById('rem').value.trim(), ph=document.getElementById('rph').value.trim(),
+        ad=document.getElementById('rad').value.trim(), pw=document.getElementById('rpw').value;
+  if (!fn||!em||!pw) { tk('Please fill required fields','err'); return; }
+  if (pw.length<6) { tk('Password min 6 characters','err'); return; }
+  const btn = document.getElementById('rbtn');
+  btn.innerHTML='<div class="spin"></div>'; btn.disabled=true;
+  try {
+    const d = await api('POST','/api/register',{firstName:fn,lastName:ln,email:em,phone:ph,address:ad,password:pw});
+    ls(d.user);
+  } catch(e) {
+    if (!bon) {
+      const us = LDB.g('users')||[];
+      if (us.find(u=>u.email===em)) { tk('❌ Email already registered','err'); btn.innerHTML='Create Account →'; btn.disabled=false; return; }
+      const nu = {id:Date.now(),role:'donor',email:em,password:pw,firstName:fn,lastName:ln,phone:ph,address:ad};
+      us.push(nu); LDB.s('users',us);
+      ls(nu);
+    } else { tk('❌ '+e.message,'err'); }
+  } finally { btn.innerHTML='Create Account →'; btn.disabled=false; }
+}
+
+/* ── GOOGLE LOGIN ── */
+function gl() {
+  tk('🔗 Connecting to Google…','ok');
+  setTimeout(async () => {
+    const gu = {id:Date.now(),role:'donor',email:'google.user@gmail.com',firstName:'Google',lastName:'User',phone:'',address:'',googleAuth:true};
+    try { const d = await api('POST','/api/google-login',{googleId:'demo_'+Date.now(),email:gu.email,name:'Google User'}); ls(d.user); }
+    catch { ls(gu); }
+  }, 1200);
+}
+
+function ls(u) {
+  CU=u; cm();
+  document.getElementById('ng').style.display='none';
+  document.getElementById('nu').style.display='flex';
+  tk('✅ Welcome, '+u.firstName+'!','ok');
+  gd();
+}
+function lo() {
+  CU=null;
+  document.getElementById('ng').style.display='flex';
+  document.getElementById('nu').style.display='none';
+  goTo('home'); tk('👋 Logged out','ok');
+}
+
+/* ── PRODUCTS ── */
+async function loadProds() {
+  try { const d=await api('GET','/api/products'); AP=d; }
+  catch { AP = LDB.g('products')||PD; }
+  renderProds(AP);
+}
+function condCls(c) { return c==='Good'?'cg':c==='Fair'?'cf':c==='Poor'?'cp':'ca'; }
+function bsCls(s) { return s==='Pending'?'bsp':s==='Collected'?'bsc':s==='Recycled'?'bsr':'bsx'; }
+function esc(t) { return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderProds(prods) {
+  const g=document.getElementById('pgrid'); if(!g) return;
+  if (!prods.length) { g.innerHTML='<div class="empty" style="grid-column:1/-1;"><div class="emptyi">📭</div><p>No products found</p></div>'; return; }
+  g.innerHTML = prods.map(p => `
+    <div class="pc">
+      <div class="pci">${p.emoji}</div>
+      <div class="pcb">
+        <div class="pccat">${p.category}</div>
+        <div class="pcname">${esc(p.name)}</div>
+        <div class="pcdesc">${esc(p.desc||p.description||'')}</div>
+        <div class="pcft"><div class="pcprice">${p.price}</div><span class="cond ${condCls(p.condition)}">${p.condition}</span></div>
+      </div>
+      <div class="pca">
+        <button class="btn btn-primary btn-sm" onclick="CU?sp('submit'):om('register')">Submit →</button>
+        <button class="btn btn-ghost btn-sm" onclick="CU?(acv=1,sp('messages')):om('login')">💬 Negotiate</button>
+      </div>
+    </div>`).join('');
+}
+function fp2() {
+  const q=document.getElementById('srch').value.toLowerCase(), cat=document.getElementById('catf').value;
+  renderProds(AP.filter(p=>(!cat||p.category===cat)&&(!q||p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q))));
+}
+
+/* ── IMPACT COUNTERS ── */
+function startImpactObs() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        ctr('cp',95,'%',2000); ctr('ci2',2400,'+',2000); ctr('cd',580,'+',2000);
+        ctr('cc',12,'',1500); ctr('cco',48,'t',1800);
+        setTimeout(()=>{ const f=document.getElementById('ibf'); if(f) f.style.width='95%'; },300);
+        obs.disconnect();
+      }
+    });
+  }, {threshold:0.3});
+  const el = document.querySelector('.impsec'); if (el) obs.observe(el);
+}
+function ctr(id,tgt,sf,dur) {
+  const el=document.getElementById(id); if(!el) return;
+  const st=performance.now();
+  (function t(n){ const p=Math.min((n-st)/dur,1),e=1-Math.pow(1-p,3); el.textContent=Math.floor(e*tgt)+sf; if(p<1) requestAnimationFrame(t); })(performance.now());
+}
+
+/* ── DASHBOARD BUILD ── */
+function buildDash() {
+  const u=CU;
+  document.getElementById('av').textContent = (u.firstName[0]+(u.lastName?u.lastName[0]:'')).toUpperCase();
+  document.getElementById('snm').textContent = u.firstName+' '+(u.lastName||'');
+  document.getElementById('srl').textContent = u.role==='admin'?'⚙️ Admin':'🤝 Donor';
+  const items = u.role==='admin' ? anav() : dnav();
+  document.getElementById('snav').innerHTML = items.map(n =>
+    `<button class="nvi ${n.id===ap?'active':''}" onclick="sp('${n.id}')"><span class="nvico">${n.icon}</span>${n.label}${n.badge?`<span class="nvbdg">${n.badge}</span>`:''}</button>`
+  ).join('');
+  sp(ap);
+}
+
+function anav() {
+  const m=(LDB.g('messages')||[]).filter(m=>m.toId===1&&!m.read);
+  return [{id:'overview',icon:'📊',label:'Overview'},{id:'users',icon:'👥',label:'All Users'},
+    {id:'subs',icon:'📦',label:'All Submissions'},{id:'prods2',icon:'🛍️',label:'Products'},
+    {id:'messages',icon:'💬',label:'Messages',badge:m.length||null},{id:'reports',icon:'📈',label:'Reports'}];
+}
+function dnav() {
+  const m=(LDB.g('messages')||[]).filter(m=>m.toId===CU.id&&!m.read);
+  return [{id:'overview',icon:'🏠',label:'My Overview'},{id:'submit',icon:'➕',label:'Submit E-Waste'},
+    {id:'myitems',icon:'📦',label:'My Submissions'},{id:'browse',icon:'🛍️',label:'Browse Products'},
+    {id:'messages',icon:'💬',label:'Messages',badge:m.length||null},{id:'profile',icon:'👤',label:'My Profile'}];
+}
+function sp(id) {
+  ap=id;
+  const c=document.getElementById('dcnt');
+  CU.role==='admin' ? ra(id,c) : rd(id,c);
+  document.querySelectorAll('.nvi').forEach(n => n.classList.toggle('active', n.getAttribute('onclick')?.includes("'"+id+"'")));
+}
+
+/* ════════════════════ ADMIN PANELS ════════════════════ */
+function ra(id,c) {
+  if      (id==='overview') c.innerHTML = ao();
+  else if (id==='users')    { c.innerHTML='<div class="pgtit">User Management</div><div class="pgsub">Loading…</div>'; au(c); }
+  else if (id==='subs')     { c.innerHTML='<div class="pgtit">All Submissions</div><div class="pgsub">Loading…</div>'; as2(c); }
+  else if (id==='prods2')   { c.innerHTML='<div class="pgtit">Products Catalog</div><div class="pgsub">Loading…</div>'; ap2(c); }
+  else if (id==='messages') { c.innerHTML=''; bm(c); }
+  else if (id==='reports')  { c.innerHTML='<div class="pgtit">Reports</div><div class="pgsub">Loading…</div>'; ar2(c); }
+}
+
+function ao() {
+  const u=(LDB.g('users')||[]).filter(u=>u.role!=='admin'), s=LDB.g('submissions')||[];
+  return `<div class="pgtit">Admin Dashboard</div>
+  <div class="pgsub">Complete system overview and management</div>
+  <div class="hint">⚠️ Admin: admin@ecoloop.com / admin123 &nbsp;|&nbsp; Demo Donor: rashedul@gmail.com / pass123</div>
+  <div class="mgrid">
+    <div class="mc"><div class="mcico">👥</div><div class="mcval">${u.length}</div><div class="mclbl">Total Donors</div></div>
+    <div class="mc"><div class="mcico">📦</div><div class="mcval">${s.length}</div><div class="mclbl">Total Submissions</div></div>
+    <div class="mc"><div class="mcico">✅</div><div class="mcval">${s.filter(x=>x.status==='Collected').length}</div><div class="mclbl">Collected</div></div>
+    <div class="mc"><div class="mcico">♻️</div><div class="mcval">${s.filter(x=>x.status==='Recycled').length}</div><div class="mclbl">Recycled</div></div>
+  </div>
+  <div class="tw"><div class="thd"><h3>Recent Submissions</h3><button class="btn btn-primary btn-sm" onclick="sp('subs')">View All</button></div>
+  <table><thead><tr><th>Donor</th><th>Item</th><th>Category</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>${s.slice(-6).reverse().map(x=>`
+    <tr><td>${esc(x.donorName)}</td><td>${esc(x.name)}</td><td>${x.category}</td><td>${x.date}</td>
+    <td><span class="bs ${bsCls(x.status)}">${x.status}</span></td>
+    <td><select class="ssel" onchange="aust(${x.id},this.value)">
+      <option ${x.status==='Pending'?'selected':''}>Pending</option>
+      <option ${x.status==='Collected'?'selected':''}>Collected</option>
+      <option ${x.status==='Recycled'?'selected':''}>Recycled</option>
+      <option ${x.status==='Rejected'?'selected':''}>Rejected</option>
+    </select></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+async function au(c) {
+  let users=[];
+  try { users = await api('GET','/api/users'); }
+  catch { users = (LDB.g('users')||[]).filter(u=>u.role!=='admin'); }
+  c.innerHTML = `<div class="pgtit">User Management</div>
+  <div class="pgsub">${users.length} registered donors</div>
+  <div class="tw"><table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Address</th><th>Action</th></tr></thead>
+  <tbody>${users.map(u=>`
+    <tr><td>#${u.id}</td><td>${esc(u.firstName)} ${esc(u.lastName||'')}</td><td>${u.email}</td>
+    <td>${u.phone||'—'}</td><td>${esc(u.address||'—')}</td>
+    <td><button class="btn btn-primary btn-sm" onclick="acv=${u.id};sp('messages')">💬 Message</button></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+async function as2(c) {
+  let subs=[];
+  try { subs = await api('GET','/api/submissions'); }
+  catch { subs = LDB.g('submissions')||[]; }
+  c.innerHTML = `<div class="pgtit">All Submissions</div>
+  <div class="pgsub">${subs.length} total items submitted</div>
+  <div class="tw"><table><thead><tr><th>ID</th><th>Donor</th><th>Item</th><th>Category</th><th>Condition</th><th>Date</th><th>Status</th><th>Update</th></tr></thead>
+  <tbody>${subs.slice().reverse().map(s=>`
+    <tr><td>#${s.id}</td><td>${esc(s.donorName)}</td><td>${esc(s.name)}</td>
+    <td>${s.category}</td><td>${s.condition}</td><td>${s.date}</td>
+    <td><span class="bs ${bsCls(s.status)}">${s.status}</span></td>
+    <td><select class="ssel" onchange="aust(${s.id},this.value)">
+      <option ${s.status==='Pending'?'selected':''}>Pending</option>
+      <option ${s.status==='Collected'?'selected':''}>Collected</option>
+      <option ${s.status==='Recycled'?'selected':''}>Recycled</option>
+      <option ${s.status==='Rejected'?'selected':''}>Rejected</option>
+    </select></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+async function ap2(c) {
+  let prods=[];
+  try { prods = await api('GET','/api/products'); }
+  catch { prods = AP.length ? AP : PD; }
+  c.innerHTML = `<div class="pgtit">Products Catalog</div>
+  <div class="pgsub">${prods.length} products listed</div>
+  <div class="tw"><table><thead><tr><th>Icon</th><th>Name</th><th>Category</th><th>Price Range</th><th>Condition</th></tr></thead>
+  <tbody>${prods.map(p=>`
+    <tr><td style="font-size:1.4rem;">${p.emoji}</td><td>${esc(p.name)}</td>
+    <td>${p.category}</td><td style="color:var(--acc);font-weight:600;">${p.price}</td>
+    <td><span class="cond ${condCls(p.condition)}">${p.condition}</span></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+async function ar2(c) {
+  let subs=[];
+  try { subs = await api('GET','/api/submissions'); }
+  catch { subs = LDB.g('submissions')||[]; }
+  const cats={};
+  subs.forEach(s=>{ cats[s.category]=(cats[s.category]||0)+1; });
+  const sorted = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+  const total = subs.length||1;
+  const statuses = ['Pending','Collected','Recycled','Rejected'];
+  c.innerHTML = `<div class="pgtit">Reports & Analytics</div>
+  <div class="pgsub">System-wide statistics</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div class="fc">
+      <h3 style="margin-bottom:18px;font-size:.95rem;">📊 Items by Category</h3>
+      ${sorted.map(([cat,cnt])=>`
+        <div style="margin-bottom:11px;">
+          <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px;"><span>${cat}</span><span style="color:var(--gn);font-weight:600;">${cnt}</span></div>
+          <div class="bw"><div class="bf" style="width:${Math.round(cnt/total*100)}%"></div></div>
+        </div>`).join('')}
+    </div>
+    <div class="fc">
+      <h3 style="margin-bottom:18px;font-size:.95rem;">📦 Items by Status</h3>
+      ${statuses.map(st=>{
+        const cnt=subs.filter(s=>s.status===st).length;
+        return `<div style="margin-bottom:11px;">
+          <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px;"><span>${st}</span><span style="color:var(--acc);font-weight:600;">${cnt} (${Math.round(cnt/total*100)}%)</span></div>
+          <div class="bw"><div class="bf" style="width:${Math.round(cnt/total*100)}%;background:var(--acc);"></div></div>
+        </div>`;}).join('')}
+    </div>
+  </div>`;
+}
+
+function aust(id, status) {
+  const subs=LDB.g('submissions')||[];
+  const s=subs.find(s=>s.id==id);
+  if (s) { s.status=status; LDB.s('submissions',subs); }
+  api('PATCH',`/api/submissions/${id}`,{status}).catch(()=>{});
+  tk(`✅ Status updated to "${status}"`, 'ok');
+}
+
+/* ════════════════════ DONOR PANELS ════════════════════ */
+function rd(id,c) {
+  if      (id==='overview') { c.innerHTML=''; dov(c); }
+  else if (id==='submit')   c.innerHTML = dsf();
+  else if (id==='myitems')  { c.innerHTML=''; dmi(c); }
+  else if (id==='browse')   c.innerHTML = dbr();
+  else if (id==='messages') { c.innerHTML=''; bm(c); }
+  else if (id==='profile')  c.innerHTML = dpf();
+}
+
+async function dov(c) {
+  let subs=[];
+  try { subs = await api('GET',`/api/submissions?donorId=${CU.id}`); }
+  catch { subs = (LDB.g('submissions')||[]).filter(s=>s.donorId==CU.id); }
+  c.innerHTML = `<div class="pgtit">Hello, ${CU.firstName}! 👋</div>
+  <div class="pgsub">Your recycling dashboard</div>
+  <div class="mgrid">
+    <div class="mc"><div class="mcico">📦</div><div class="mcval">${subs.length}</div><div class="mclbl">Total Submitted</div></div>
+    <div class="mc"><div class="mcico">♻️</div><div class="mcval">${subs.filter(s=>s.status==='Recycled').length}</div><div class="mclbl">Recycled</div></div>
+    <div class="mc"><div class="mcico">⏳</div><div class="mcval">${subs.filter(s=>s.status==='Pending').length}</div><div class="mclbl">Pending</div></div>
+    <div class="mc"><div class="mcico">🌱</div><div class="mcval">${(subs.filter(s=>s.status==='Recycled').length*0.3).toFixed(1)}kg</div><div class="mclbl">CO₂ Saved Est.</div></div>
+  </div>
+  <div class="tw"><div class="thd"><h3>My Recent Submissions</h3><button class="btn btn-primary btn-sm" onclick="sp('submit')">+ New Item</button></div>
+  ${subs.length===0
+    ? `<div class="empty"><div class="emptyi">📦</div><p>No submissions yet.<br><span class="lnk" onclick="sp('submit')">Submit your first item!</span></p></div>`
+    : `<table><thead><tr><th>Item</th><th>Category</th><th>Condition</th><th>Date</th><th>Status</th><th></th></tr></thead>
+       <tbody>${subs.slice().reverse().slice(0,6).map(s=>`
+         <tr><td>${esc(s.name)}</td><td>${s.category}</td><td>${s.condition}</td><td>${s.date}</td>
+         <td><span class="bs ${bsCls(s.status)}">${s.status}</span></td>
+         <td><button class="btn btn-ghost btn-sm" onclick="acv=1;sp('messages')">💬 Ask</button></td></tr>`).join('')}
+       </tbody></table>`}
+  </div>`;
+}
+
+function dsf() {
+  return `<div class="pgtit">Submit E-Waste Item</div>
+  <div class="pgsub">Tell us about your item and we'll give you a fair price</div>
+  <div class="fc">
+    <div class="info2">💡 After submitting, our admin will contact you via messaging to discuss pricing and schedule your free pickup.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="fg"><label class="fl">Item Name *</label><input class="fi" id="si-nm" placeholder="e.g. Samsung Galaxy S10"></div>
+      <div class="fg"><label class="fl">Category *</label>
+        <select class="fi" id="si-ct">
+          <option>Mobile</option><option>Laptop</option><option>TV</option>
+          <option>Battery</option><option>Appliance</option><option>Printer</option>
+          <option>Camera</option><option>Gaming</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="fg"><label class="fl">Condition *</label>
+        <select class="fi" id="si-cd"><option>Good</option><option>Fair</option><option>Poor</option></select>
+      </div>
+      <div class="fg"><label class="fl">Quantity</label><input class="fi" type="number" id="si-qty" value="1" min="1"></div>
+    </div>
+    <div class="fg"><label class="fl">Description / Notes</label>
+      <textarea class="fi" id="si-ds" placeholder="Describe condition, model details, any issues…"></textarea>
+    </div>
+    <div class="fg"><label class="fl">Preferred Collection Center</label>
+      <select class="fi" id="si-cn">
+        <option value="1">♻️ Dhaka Central — Mirpur-10</option>
+        <option value="2">♻️ Gulshan E-Waste Hub — Gulshan-2</option>
+        <option value="3">♻️ Uttara Green Point — Uttara Sector 10</option>
+        <option value="4">♻️ Motijheel Drop Zone — Motijheel</option>
+        <option value="5">♻️ Chittagong Eco Center — GEC Circle</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:6px;">
+      <button class="btn btn-accent" id="sbt" onclick="dosub()" style="padding:12px 26px;">✅ Submit Item</button>
+      <button class="btn btn-ghost" onclick="sp('browse')">Browse Prices First</button>
+    </div>
+  </div>`;
+}
+
+async function dosub() {
+  const nm=document.getElementById('si-nm')?.value.trim();
+  if (!nm) { tk('Please enter an item name','err'); return; }
+  const cat=document.getElementById('si-ct')?.value;
+  const cond=document.getElementById('si-cd')?.value;
+  const desc=document.getElementById('si-ds')?.value.trim();
+  const qty=parseInt(document.getElementById('si-qty')?.value)||1;
+  const cid=parseInt(document.getElementById('si-cn')?.value);
+  const cnames=['','Dhaka Central','Gulshan Hub','Uttara','Motijheel','Chittagong'];
+  const btn=document.getElementById('sbt');
+  btn.innerHTML='<div class="spin"></div> Submitting…'; btn.disabled=true;
+  const payload={donorId:CU.id,name:nm,category:cat,condition:cond,description:desc,quantity:qty,centerId:cid};
+  try {
+    await api('POST','/api/submissions',payload);
+    tk('✅ Submitted! Admin will contact you about pricing.','ok');
+  } catch {
+    const sub={...payload,donorName:CU.firstName+' '+(CU.lastName||''),date:new Date().toISOString().split('T')[0],status:'Pending',centerName:cnames[cid]||''};
+    LDB.p('submissions',sub);
+    tk('✅ Item submitted successfully!','ok');
+  }
+  btn.innerHTML='✅ Submit Item'; btn.disabled=false;
+  sp('myitems');
+}
+
+async function dmi(c) {
+  let subs=[];
+  try { subs = await api('GET',`/api/submissions?donorId=${CU.id}`); }
+  catch { subs = (LDB.g('submissions')||[]).filter(s=>s.donorId==CU.id); }
+  c.innerHTML = `<div class="pgtit">My Submissions</div>
+  <div class="pgsub">Track all your submitted e-waste items</div>
+  ${subs.length===0
+    ? `<div class="empty"><div class="emptyi">📦</div><p>No submissions yet.</p><button class="btn btn-primary" style="margin-top:14px;" onclick="sp('submit')">Submit Your First Item</button></div>`
+    : `<div class="tw"><table><thead><tr><th>Item</th><th>Category</th><th>Qty</th><th>Condition</th><th>Center</th><th>Date</th><th>Status</th><th></th></tr></thead>
+       <tbody>${subs.slice().reverse().map(s=>`
+         <tr><td>${esc(s.name)}</td><td>${s.category}</td><td>${s.quantity||1}</td>
+         <td>${s.condition}</td><td>${esc(s.centerName||'—')}</td><td>${s.date}</td>
+         <td><span class="bs ${bsCls(s.status)}">${s.status}</span></td>
+         <td><button class="btn btn-ghost btn-sm" onclick="acv=1;sp('messages')">💬 Ask Admin</button></td></tr>`).join('')}
+       </tbody></table></div>`}`;
+}
+
+function dbr() {
+  const prods = AP.length ? AP : PD;
+  return `<div class="pgtit">Browse Products</div>
+  <div class="pgsub">See all accepted items and their price ranges</div>
+  <div class="pg">${prods.map(p=>`
+    <div class="pc">
+      <div class="pci">${p.emoji}</div>
+      <div class="pcb">
+        <div class="pccat">${p.category}</div>
+        <div class="pcname">${esc(p.name)}</div>
+        <div class="pcdesc">${esc(p.desc||p.description||'')}</div>
+        <div class="pcft"><div class="pcprice">${p.price}</div><span class="cond ${condCls(p.condition)}">${p.condition}</span></div>
+      </div>
+      <div class="pca">
+        <button class="btn btn-primary btn-sm" onclick="sp('submit')">Submit This →</button>
+        <button class="btn btn-ghost btn-sm" onclick="acv=1;sp('messages')">💬 Negotiate</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function dpf() {
+  return `<div class="pgtit">My Profile</div>
+  <div class="pgsub">Update your account information</div>
+  <div class="fc">
+    <div style="display:flex;align-items:center;gap:18px;margin-bottom:28px;">
+      <div class="usrav" style="width:60px;height:60px;font-size:1.5rem;">${(CU.firstName[0]+(CU.lastName?CU.lastName[0]:'')).toUpperCase()}</div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;">${CU.firstName} ${CU.lastName||''}</div>
+        <div style="color:var(--mut);font-size:.82rem;">${CU.email}</div>
+        ${CU.googleAuth?'<div style="color:var(--gn);font-size:.72rem;margin-top:3px;">🔗 Google Account</div>':''}
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="fg"><label class="fl">First Name</label><input class="fi" id="pfn" value="${esc(CU.firstName)}"></div>
+      <div class="fg"><label class="fl">Last Name</label><input class="fi" id="pln" value="${esc(CU.lastName||'')}"></div>
+    </div>
+    <div class="fg"><label class="fl">Email (cannot change)</label><input class="fi" value="${CU.email}" disabled style="opacity:.5;"></div>
+    <div class="fg"><label class="fl">Phone</label><input class="fi" id="pph" value="${esc(CU.phone||'')}"></div>
+    <div class="fg"><label class="fl">Address</label><input class="fi" id="pad" value="${esc(CU.address||'')}"></div>
+    <button class="btn btn-primary" onclick="svpf()" style="padding:11px 26px;">Save Changes</button>
+  </div>`;
+}
+
+async function svpf() {
+  const fn=document.getElementById('pfn')?.value.trim(), ln=document.getElementById('pln')?.value.trim(),
+        ph=document.getElementById('pph')?.value.trim(), ad=document.getElementById('pad')?.value.trim();
+  try {
+    const d = await api('PATCH',`/api/users/${CU.id}`,{firstName:fn,lastName:ln,phone:ph,address:ad});
+    CU = {...CU,...d};
+  } catch {
+    const us=LDB.g('users')||[], i=us.findIndex(u=>u.id===CU.id);
+    if (i!==-1) { us[i]={...us[i],firstName:fn,lastName:ln,phone:ph,address:ad}; LDB.s('users',us); CU=us[i]; }
+  }
+  document.getElementById('snm').textContent = CU.firstName+' '+(CU.lastName||'');
+  document.getElementById('av').textContent  = (CU.firstName[0]+(CU.lastName?CU.lastName[0]:'')).toUpperCase();
+  tk('✅ Profile updated!','ok');
+}
+
+/* ════════════════════ MESSAGING ════════════════════ */
+function bm(c) {
+  const isAdmin = CU.role==='admin';
+  const msgs = LDB.g('messages')||[];
+  const donors = (LDB.g('users')||[]).filter(u=>u.role!=='admin');
+  if (!acv) acv = isAdmin ? (donors[0]?.id||null) : 1;
+
+  let convHtml='';
+  if (isAdmin) {
+    convHtml = donors.map(u=>{
+      const last = msgs.filter(m=>(m.fromId===u.id&&m.toId===1)||(m.fromId===1&&m.toId===u.id)).slice(-1)[0];
+      const unrd = msgs.filter(m=>m.fromId===u.id&&m.toId===1&&!m.read).length;
+      return `<div class="ci ${acv===u.id?'act':''}" onclick="oconv(${u.id},'${esc(u.firstName+' '+(u.lastName||''))}')">
+        <div class="citp"><span class="cinm">${esc(u.firstName)} ${esc(u.lastName||'')}</span>${unrd>0?'<div class="cdot"></div>':''}</div>
+        <div class="cipv">${last?esc(last.text):'No messages yet'}</div>
+      </div>`;
+    }).join('') || '<div style="padding:20px;color:var(--mut);font-size:.82rem;">No donors yet</div>';
+  } else {
+    const unrd = msgs.filter(m=>m.fromId===1&&m.toId===CU.id&&!m.read).length;
+    convHtml = `<div class="ci act" onclick="oconv(1,'EcoLoop Admin')">
+      <div class="citp"><span class="cinm">⚙️ EcoLoop Admin</span>${unrd>0?'<div class="cdot"></div>':''}</div>
+      <div class="cipv">Ask about pricing, pickups & more</div>
+    </div>`;
+  }
+
+  c.innerHTML = `<div class="pgtit">Messages</div>
+  <div class="pgsub">Chat ${isAdmin?'with donors':'with our admin team'} about pricing and pickups</div>
+  <div class="ml">
+    <div class="cl"><div class="clh">💬 Conversations</div>${convHtml}</div>
+    <div class="ca2" id="chatbox">${rchat()}</div>
+  </div>`;
+  scrollChat();
+}
+
+function oconv(uid, name) {
+  acv=uid;
+  document.getElementById('chatbox').innerHTML = rchat();
+  const msgs=LDB.g('messages')||[];
+  msgs.filter(m=>m.fromId===uid&&m.toId===CU.id).forEach(m=>m.read=true);
+  LDB.s('messages',msgs);
+  scrollChat();
+  document.querySelectorAll('.ci').forEach(el=>el.classList.toggle('act', el.onclick?.toString().includes('('+uid+',')));
+}
+
+function rchat() {
+  if (!acv) return '<div class="empty" style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;"><div class="emptyi">💬</div><p>Select a conversation</p></div>';
+  const msgs = LDB.g('messages')||[];
+  const conv = msgs.filter(m=>(m.fromId===CU.id&&m.toId===acv)||(m.fromId===acv&&m.toId===CU.id));
+  const tname = CU.role==='admin'
+    ? ((LDB.g('users')||[]).find(u=>u.id===acv)?.firstName||'Donor')
+    : '⚙️ EcoLoop Admin';
+  conv.filter(m=>m.toId===CU.id).forEach(m=>m.read=true);
+  LDB.s('messages',msgs);
+  return `<div class="chd">
+    <div class="chav" style="background:linear-gradient(135deg,var(--green),var(--gn));">${typeof tname==='string'?tname.replace(/⚙️\s*/,'')[0]:'A'}</div>
+    <div><div class="chnm">${esc(tname)}</div><div class="chon">● Online</div></div>
+  </div>
+  <div class="chm" id="cmsg">
+    ${conv.length===0
+      ? '<div class="empty"><div class="emptyi">💬</div><p>No messages yet — say hi!</p></div>'
+      : conv.map(m=>`
+        <div class="msg ${m.fromId===CU.id?'sent':'recv'}">
+          <div class="mav">${m.fromName[0]}</div>
+          <div><div class="mbub">${esc(m.text)}</div><div class="mtime">${m.time}</div></div>
+        </div>`).join('')}
+  </div>
+  <div class="chia">
+    <textarea class="chinp" id="ctxt" placeholder="Type a message… (Enter to send)" rows="1"
+      onkeypress="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();smsg();}"></textarea>
+    <button class="chsend" onclick="smsg()">➤</button>
+  </div>`;
+}
+
+function scrollChat() { setTimeout(()=>{ const el=document.getElementById('cmsg'); if(el) el.scrollTop=el.scrollHeight; },60); }
+
+async function smsg() {
+  const txt=document.getElementById('ctxt')?.value.trim(); if(!txt) return;
+  const tid=acv||1;
+  const now=new Date().toLocaleTimeString('en-BD',{hour:'2-digit',minute:'2-digit'});
+  const tname=CU.role==='admin'?((LDB.g('users')||[]).find(u=>u.id===tid)?.firstName||'Donor'):'Admin';
+  const newMsg={fromId:CU.id,fromName:CU.firstName,fromRole:CU.role,toId:tid,toName:tname,toRole:CU.role==='admin'?'donor':'admin',text:txt,time:now,read:false};
+  LDB.p('messages',newMsg);
+  try { await api('POST','/api/messages',{...newMsg}); } catch {}
+  document.getElementById('ctxt').value='';
+  const msgsEl=document.getElementById('cmsg');
+  if (msgsEl) {
+    if (msgsEl.querySelector('.empty')) msgsEl.innerHTML='';
+    const d=document.createElement('div'); d.className='msg sent';
+    d.innerHTML=`<div class="mav" style="background:var(--acc);color:var(--dark);">${CU.firstName[0]}</div><div><div class="mbub">${esc(txt)}</div><div class="mtime">${now}</div></div>`;
+    msgsEl.appendChild(d); scrollChat();
+  }
+}
+
+/* ── TOAST ── */
+function tk(msg,type='ok') {
+  const c=document.getElementById('tc');
+  const t=document.createElement('div'); t.className='toast '+type;
+  t.innerHTML=`<span>${type==='ok'?'✅':'❌'}</span>${msg}`;
+  c.appendChild(t);
+  setTimeout(()=>t.style.opacity='0',3500);
+  setTimeout(()=>t.remove(),4000);
+}
+</script>
+</body>
+</html>
