@@ -1166,52 +1166,52 @@ window.addEventListener('DOMContentLoaded', function() {
 });
   
 //Handle Google OAuth redirect
-(function() {
-  const hash = window.location.hash;
-  if (hash && hash.includes('access_token=')) {
-    const params = new URLSearchParams(hash.substring(1));
-    const token = params.get('access_token');
+// (function() {
+//   const hash = window.location.hash;
+//   if (hash && hash.includes('access_token=')) {
+//     const params = new URLSearchParams(hash.substring(1));
+//     const token = params.get('access_token');
     
-    if (token) {
-      fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-        headers: {'Authorization': 'Bearer ' + token}
-      })
-      .then(r => r.json())
-      .then(data => {
-        const googleUser = {
-          id: Date.now(),
-          role: 'donor',
-          email: data.email,
-          firstName: data.given_name || 'User',
-          lastName: data.family_name || '',
-          phone: '',
-          address: '',
-          googleAuth: true,
-          googleId: data.id
-        };
+//     if (token) {
+//       fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+//         headers: {'Authorization': 'Bearer ' + token}
+//       })
+//       .then(r => r.json())
+//       .then(data => {
+//         const googleUser = {
+//           id: Date.now(),
+//           role: 'donor',
+//           email: data.email,
+//           firstName: data.given_name || 'User',
+//           lastName: data.family_name || '',
+//           phone: '',
+//           address: '',
+//           googleAuth: true,
+//           googleId: data.id
+//         };
         
-        ls(googleUser);
-        window.history.replaceState({}, document.title, window.location.pathname);
-      })
-      .catch(() => tk('❌ Google login failed', 'err'));
-    }
-  }
-})();
-
-  //Hamburger menu click handler
-// document.addEventListener('click', function(e) {
-//   // Check if clicked element is hamburger
-//   const hamburger = e.target.closest('.hamburger') || 
-//                     e.target.classList.contains('hamburger') ||
-//                     e.target.textContent.trim() === '≡';
-  
-//   if (hamburger) {
-//     const sidebar = document.querySelector('.sidebar');
-//     if (sidebar) {
-//       sidebar.classList.toggle('mobile-show');
+//         ls(googleUser);
+//         window.history.replaceState({}, document.title, window.location.pathname);
+//       })
+//       .catch(() => tk('❌ Google login failed', 'err'));
 //     }
 //   }
-// });
+// })();
+
+  //Hamburger menu click handler
+document.addEventListener('click', function(e) {
+  // Check if clicked element is hamburger
+  const hamburger = e.target.closest('.hamburger') || 
+                    e.target.classList.contains('hamburger') ||
+                    e.target.textContent.trim() === '≡';
+  
+  if (hamburger) {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+      sidebar.classList.toggle('mobile-show');
+    }
+  }
+});
 
   
 /* ── TOAST ── */
