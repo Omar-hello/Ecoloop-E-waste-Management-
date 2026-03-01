@@ -233,7 +233,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
   .ml{grid-template-columns:1fr;height:auto;}.cl{height:160px;}
   .fg2{grid-template-columns:1fr;}
 }
-@media(max-width:900px){
+/* @media(max-width:900px){
   .sidebar {
     transform: translateX(-100%);
     transition: transform 0.3s;
@@ -243,7 +243,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     position: fixed;
     z-index: 1000;
   }
-}
+} */
   
 </style>
 </head>
@@ -1199,19 +1199,19 @@ window.addEventListener('DOMContentLoaded', function() {
 })();
 
   //Hamburger menu click handler
-document.addEventListener('click', function(e) {
-  // Check if clicked element is hamburger
-  const hamburger = e.target.closest('.hamburger') || 
-                    e.target.classList.contains('hamburger') ||
-                    e.target.textContent.trim() === '≡';
+// document.addEventListener('click', function(e) {
+//   // Check if clicked element is hamburger
+//   const hamburger = e.target.closest('.hamburger') || 
+//                     e.target.classList.contains('hamburger') ||
+//                     e.target.textContent.trim() === '≡';
   
-  if (hamburger) {
-    const sidebar = document.querySelector('.sidebar');
-    if (sidebar) {
-      sidebar.classList.toggle('mobile-show');
-    }
-  }
-});
+//   if (hamburger) {
+//     const sidebar = document.querySelector('.sidebar');
+//     if (sidebar) {
+//       sidebar.classList.toggle('mobile-show');
+//     }
+//   }
+// });
 
   
 /* ── TOAST ── */
