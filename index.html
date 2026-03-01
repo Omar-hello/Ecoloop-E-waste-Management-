@@ -623,25 +623,25 @@ async function dr() {
 }
 
 /* ── GOOGLE LOGIN ── */
-// function gl() {
-//   tk('🔗 Connecting to Google…','ok');
-//   setTimeout(async () => {
-//     const gu = {id:Date.now(),role:'donor',email:'google.user@gmail.com',firstName:'Google',lastName:'User',phone:'',address:'',googleAuth:true};
-//     try { const d = await api('POST','/api/google-login',{googleId:'demo_'+Date.now(),email:gu.email,name:'Google User'}); ls(d.user); }
-//     catch { ls(gu); }
-//   }, 1200);
-// }
 function gl() {
-  const clientId = '592508669343-jqv1c7ssd3s5emhkj8q50l8hfo6ck9e6.apps.googleusercontent.com';
-  const redirect = encodeURIComponent(window.location.href.split('#')[0]);
-  const url = 'https://accounts.google.com/o/oauth2/v2/auth?'+
-    'client_id='+clientId+
-    '&redirect_uri='+redirect+
-    '&response_type=token'+
-    '&scope=email%20profile'+
-    '&prompt=select_account';  // ← THIS LINE SHOWS ACCOUNT PICKER!
-  window.location.href = url;
+  tk('🔗 Connecting to Google…','ok');
+  setTimeout(async () => {
+    const gu = {id:Date.now(),role:'donor',email:'google.user@gmail.com',firstName:'Google',lastName:'User',phone:'',address:'',googleAuth:true};
+    try { const d = await api('POST','/api/google-login',{googleId:'demo_'+Date.now(),email:gu.email,name:'Google User'}); ls(d.user); }
+    catch { ls(gu); }
+  }, 1200);
 }
+// function gl() {
+//   const clientId = '592508669343-jqv1c7ssd3s5emhkj8q50l8hfo6ck9e6.apps.googleusercontent.com';
+//   const redirect = encodeURIComponent(window.location.href.split('#')[0]);
+//   const url = 'https://accounts.google.com/o/oauth2/v2/auth?'+
+//     'client_id='+clientId+
+//     '&redirect_uri='+redirect+
+//     '&response_type=token'+
+//     '&scope=email%20profile'+
+//     '&prompt=select_account';  // ← THIS LINE SHOWS ACCOUNT PICKER!
+//   window.location.href = url;
+// }
   
 
 function ls(u) {
