@@ -233,7 +233,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
   .ml{grid-template-columns:1fr;height:auto;}.cl{height:160px;}
   .fg2{grid-template-columns:1fr;}
 }
-/* @media(max-width:900px){
+@media(max-width:900px){
   .sidebar {
     transform: translateX(-100%);
     transition: transform 0.3s;
@@ -243,7 +243,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     position: fixed;
     z-index: 1000;
   }
-} */
+}
   
 </style>
 </head>
@@ -644,13 +644,23 @@ function gl() {
 // }
   
 
+// function ls(u) {
+//   CU=u; cm();
+//   document.getElementById('ng').style.display='none';
+//   document.getElementById('nu').style.display='flex';
+//   tk('✅ Welcome, '+u.firstName+'!','ok');
+//   gd();
+// }
 function ls(u) {
-  CU=u; cm();
+  CU=u; 
+  localStorage.setItem('ecoloop_user', JSON.stringify(u)); // ← ADD THIS LINE
+  cm();
   document.getElementById('ng').style.display='none';
   document.getElementById('nu').style.display='flex';
   tk('✅ Welcome, '+u.firstName+'!','ok');
   gd();
 }
+  
 function lo() {
   CU=null;
   document.getElementById('ng').style.display='flex';
