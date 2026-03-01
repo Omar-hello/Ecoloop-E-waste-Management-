@@ -161,7 +161,8 @@ textarea.fi{resize:vertical;min-height:76px;}
 .mcico{font-size:1.6rem;margin-bottom:9px;}
 .mcval{font-family:'Syne',sans-serif;font-size:1.85rem;font-weight:800;color:var(--gn);}
 .mclbl{font-size:.78rem;color:var(--mut);margin-top:2px;}
-.tw{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);overflow:hidden;margin-bottom:22px;}
+/* .tw{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);overflow:hidden;margin-bottom:22px;} */
+.tw{background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);overflow:visible;margin-bottom:22px;}
 .thd{padding:16px 20px;border-bottom:1px solid var(--bor);display:flex;justify-content:space-between;align-items:center;}
 .thd h3{font-size:.92rem;font-weight:700;}
 table{width:100%;border-collapse:collapse;}
@@ -181,7 +182,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .emptyi{font-size:2.6rem;margin-bottom:12px;opacity:.5;}
 .bw{background:var(--sur2);border-radius:4px;height:6px;margin-top:4px;}
 .bf{height:100%;border-radius:4px;background:var(--green);}
-.ssel{background:var(--sur);border:1px solid var(--bor);color:var(--txt);border-radius:6px;padding:4px 8px;font-size:.74rem;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+/* .ssel{background:var(--sur);border:1px solid var(--bor);color:var(--txt);border-radius:6px;padding:4px 8px;font-size:.74rem;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;} */
+.ssel{background:var(--sur);border:1px solid var(--bor);color:var(--txt);border-radius:6px;padding:4px 8px;font-size:.74rem;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;position:relative;z-index:999 !important;}
 .ml{display:grid;grid-template-columns:260px 1fr;gap:0;background:var(--sur);border:1px solid var(--bor);border-radius:var(--r);height:570px;overflow:hidden;}
 .cl{border-right:1px solid var(--bor);overflow-y:auto;background:var(--d2);}
 .clh{padding:16px 18px;border-bottom:1px solid var(--bor);font-weight:700;font-size:.9rem;}
@@ -231,6 +233,18 @@ tr:hover td{background:rgba(255,255,255,.02);}
   .ml{grid-template-columns:1fr;height:auto;}.cl{height:160px;}
   .fg2{grid-template-columns:1fr;}
 }
+@media(max-width:900px){
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .sidebar.mobile-show {
+    transform: translateX(0);
+    position: fixed;
+    z-index: 1000;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -400,7 +414,8 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
     <div id="lf">
       <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="le" placeholder="you@gmail.com"></div>
-      <div class="fg"><label class="fl">Password</label><input class="fi" type="password" id="lp" placeholder="••••••••" onkeydown="if(event.key==='Enter')dl()"></div>
+      <!-- <div class="fg"><label class="fl">Password</label><input class="fi" type="password" id="lp" placeholder="••••••••" onkeydown="if(event.key==='Enter')dl()"></div> -->
+      <div class="fg"><label class="fl">Password</label><div style="position:relative;"><input class="fi" type="password" id="lp" placeholder="••••••••" onkeydown="if(event.key==='Enter')dl()" style="padding-right:40px;"><button type="button" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--mut);" onclick="var i=document.getElementById('lp');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁️':'🙈';">👁️</button></div></div>
       <button class="btn btn-primary btn-full" id="lbtn" onclick="dl()" style="padding:12px;font-size:.92rem;border-radius:var(--rs);margin-bottom:14px;">Sign In →</button>
       <div class="div2">or continue with</div>
       <button class="gbtn" onclick="gl()">
@@ -608,14 +623,26 @@ async function dr() {
 }
 
 /* ── GOOGLE LOGIN ── */
+// function gl() {
+//   tk('🔗 Connecting to Google…','ok');
+//   setTimeout(async () => {
+//     const gu = {id:Date.now(),role:'donor',email:'google.user@gmail.com',firstName:'Google',lastName:'User',phone:'',address:'',googleAuth:true};
+//     try { const d = await api('POST','/api/google-login',{googleId:'demo_'+Date.now(),email:gu.email,name:'Google User'}); ls(d.user); }
+//     catch { ls(gu); }
+//   }, 1200);
+// }
 function gl() {
-  tk('🔗 Connecting to Google…','ok');
-  setTimeout(async () => {
-    const gu = {id:Date.now(),role:'donor',email:'google.user@gmail.com',firstName:'Google',lastName:'User',phone:'',address:'',googleAuth:true};
-    try { const d = await api('POST','/api/google-login',{googleId:'demo_'+Date.now(),email:gu.email,name:'Google User'}); ls(d.user); }
-    catch { ls(gu); }
-  }, 1200);
+  const clientId = '592508669343-jqv1c7ssd3s5emhkj8q50l8hfo6ck9e6.apps.googleusercontent.com';
+  const redirect = encodeURIComponent(window.location.href.split('#')[0]);
+  const url = 'https://accounts.google.com/o/oauth2/v2/auth?'+
+    'client_id='+clientId+
+    '&redirect_uri='+redirect+
+    '&response_type=token'+
+    '&scope=email%20profile'+
+    '&prompt=select_account';  // ← THIS LINE SHOWS ACCOUNT PICKER!
+  window.location.href = url;
 }
+  
 
 function ls(u) {
   CU=u; cm();
@@ -697,12 +724,26 @@ function buildDash() {
   sp(ap);
 }
 
+// function anav() {
+//   const m=(LDB.g('messages')||[]).filter(m=>m.toId===1&&!m.read);
+//   return [{id:'overview',icon:'📊',label:'Overview'},{id:'users',icon:'👥',label:'All Users'},
+//     {id:'subs',icon:'📦',label:'All Submissions'},{id:'prods2',icon:'🛍️',label:'Products'},
+//     {id:'messages',icon:'💬',label:'Messages',badge:m.length||null},{id:'reports',icon:'📈',label:'Reports'}];
+// }
+  
 function anav() {
-  const m=(LDB.g('messages')||[]).filter(m=>m.toId===1&&!m.read);
-  return [{id:'overview',icon:'📊',label:'Overview'},{id:'users',icon:'👥',label:'All Users'},
-    {id:'subs',icon:'📦',label:'All Submissions'},{id:'prods2',icon:'🛍️',label:'Products'},
-    {id:'messages',icon:'💬',label:'Messages',badge:m.length||null},{id:'reports',icon:'📈',label:'Reports'}];
+   // const m = msgs.filter(m=>m.toId===1 && m.toRole==='admin' && !m.read);
+  const msgs = LDB.g('messages')||[];
+  const m = msgs.filter(m => m.toId === 1 && !m.read);
+  return [{id:'overview',icon:'📊',label:'Overview'},
+          {id:'users',icon:'👥',label:'All Users'},
+          {id:'subs',icon:'📦',label:'All Submissions'},
+          {id:'prods2',icon:'🛍️',label:'Products'},
+          {id:'messages',icon:'💬',label:'Messages',badge:m.length||null},
+          {id:'reports',icon:'📈',label:'Reports'}];
 }
+
+  
 function dnav() {
   const m=(LDB.g('messages')||[]).filter(m=>m.toId===CU.id&&!m.read);
   return [{id:'overview',icon:'🏠',label:'My Overview'},{id:'submit',icon:'➕',label:'Submit E-Waste'},
@@ -1104,7 +1145,75 @@ async function smsg() {
     msgsEl.appendChild(d); scrollChat();
   }
 }
+// Auto-login on page refresh
+window.addEventListener('DOMContentLoaded', function() {
+  const savedUser = localStorage.getItem('ecoloop_user');
+  if (savedUser) {
+    try {
+      CU = JSON.parse(savedUser);
+      document.getElementById('ng').style.display='none';
+      document.getElementById('nu').style.display='flex';
+      
+      // If on home page, go to dashboard
+      const currentPage = document.querySelector('.page.active')?.id;
+      if (!currentPage || currentPage === 'page-home') {
+        setTimeout(() => gd(), 100);
+      }
+    } catch(e) {
+      localStorage.removeItem('ecoloop_user');
+    }
+  }
+});
+  
+Handle Google OAuth redirect
+(function() {
+  const hash = window.location.hash;
+  if (hash && hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash.substring(1));
+    const token = params.get('access_token');
+    
+    if (token) {
+      fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: {'Authorization': 'Bearer ' + token}
+      })
+      .then(r => r.json())
+      .then(data => {
+        const googleUser = {
+          id: Date.now(),
+          role: 'donor',
+          email: data.email,
+          firstName: data.given_name || 'User',
+          lastName: data.family_name || '',
+          phone: '',
+          address: '',
+          googleAuth: true,
+          googleId: data.id
+        };
+        
+        ls(googleUser);
+        window.history.replaceState({}, document.title, window.location.pathname);
+      })
+      .catch(() => tk('❌ Google login failed', 'err'));
+    }
+  }
+})();
 
+  //Hamburger menu click handler
+document.addEventListener('click', function(e) {
+  // Check if clicked element is hamburger
+  const hamburger = e.target.closest('.hamburger') || 
+                    e.target.classList.contains('hamburger') ||
+                    e.target.textContent.trim() === '≡';
+  
+  if (hamburger) {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+      sidebar.classList.toggle('mobile-show');
+    }
+  }
+});
+
+  
 /* ── TOAST ── */
 function tk(msg,type='ok') {
   const c=document.getElementById('tc');
